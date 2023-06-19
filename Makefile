@@ -27,7 +27,12 @@ INC			=	$(addprefix $(INC_PATH), $(INC_FILES))
 #    Files
 SRCS_PATH = src
 
-FILES = ft_read.s ft_strcpy.s ft_strlen.s ft_strcmp.s ft_strdup.s ft_write.s
+FILES = ft_read.s \
+		ft_strcmp.s	\
+		ft_strcpy.s \
+		ft_strdup.s \
+		ft_strlen.s \
+	 	ft_write.s
 
 SRCS = $(addprefix $(SRCS_PATH)/, $(FILES))
 
@@ -46,7 +51,7 @@ RM = rm -rf
 
 OBJS_PATH = objs/
 
-OBJS = $(patsubst $(SRCS_PATH)%.cpp,    $(OBJS_PATH)%.o,    $(SRCS))
+OBJS = $(patsubst $(SRCS_PATH)%.s,    $(OBJS_PATH)%.o,    $(SRCS))
 
 #    Rules
 all: $(NAME)
