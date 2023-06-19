@@ -1,5 +1,5 @@
 #ifndef LIBASM_H
-# define LIBADM_H
+# define LIBASM_H
 
 # include "stdio.h"
 # include "string.h"
