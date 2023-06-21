@@ -44,6 +44,20 @@ void    strcmp_check(int(f1)(const char *, const char *), int(f2)(const char *, 
     }
 }
 
+void    write_check(int fd, const void *buf, size_t count)
+{
+    ssize_t r1, r2;
+
+    r1 = write(fd, buf, count);
+    r2 = write(fd, buf, count);
+
+    if (r1 == r2)
+        printf("-OK\n");
+    else
+        printf("-KO: %ld | %ld\n", r1, r2);
+
+}
+
 void    strlen_tester()
 {
     char test[4] = "0123";
@@ -77,11 +91,21 @@ void    strcmp_tester()
     strcmp_check(ft_strcmp, strcmp, "\0", "\0");
 }
 
+void    write_tester()
+{
+    //write_check(1, "012345678\n", 10);
+    // write_check(1, "abcd\n", 15);
+
+
+    
+}
+
 int main()
 {
     printf("BEGIN TEST\n");
     // strlen_tester();
     // strcpy_tester();
-    strcmp_tester();
+    // strcmp_tester();
+    write_tester();
     return (0);
 }
