@@ -9,7 +9,6 @@ void    strcpy_check(char *(f1)(char *, const char *), char *(f2)(char *, const 
     (void)f1;
 
     res1 = f1(dest1, str);
-    // res1 = f2(dest1, str);
     res2 = f2(dest2, str2);
 
     if (!strcmp(res1, res2) && !strcmp(str, str2) && *res1 == *dest1 && *res2 == *dest2)
@@ -23,8 +22,26 @@ void    strcpy_check(char *(f1)(char *, const char *), char *(f2)(char *, const 
         printf("*res1 == *dest1: %d\n", *res1 == *dest1);
         printf("*res2 == *dest2: %d\n", *res2 == *dest2);
     }
+}
 
+void    strcmp_check(int(f1)(const char *, const char *), int(f2)(const char *, const char *), const char *s1, const char *s2) {
+    int r1, r2;
 
+    r1 = f1(s1, s2);
+    r2 = f2(s1, s2);
+
+    if (r2 < 0)
+        r2 = -1;
+    if (r2 > 0)
+        r2 = 1;
+    
+    if (r1 == r2)
+        printf("OK\n");
+    else
+    {
+        printf("KO\n");
+        printf("ft = %d | or = %d\n", r1, r2);
+    }
 }
 
 void    strlen_tester()
@@ -45,10 +62,26 @@ void    strcpy_tester()
     strcpy_check(ft_strcpy, strcpy, "\0", "\0");
 }
 
+void    strcmp_tester()
+{
+    strcmp_check(ft_strcmp, strcmp, "a", "");
+    strcmp_check(ft_strcmp, strcmp, "", "a");
+
+    strcmp_check(ft_strcmp, strcmp, "asd", "ASD");
+    strcmp_check(ft_strcmp, strcmp, "ASD", "asd");
+
+    strcmp_check(ft_strcmp, strcmp, "", "");
+    strcmp_check(ft_strcmp, strcmp, "***", "***");
+
+    strcmp_check(ft_strcmp, strcmp, "abc", "abc");
+    strcmp_check(ft_strcmp, strcmp, "\0", "\0");
+}
+
 int main()
 {
     printf("BEGIN TEST\n");
     // strlen_tester();
-    strcpy_tester();
+    // strcpy_tester();
+    strcmp_tester();
     return (0);
 }
