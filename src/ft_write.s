@@ -18,7 +18,7 @@ ft_write:
     syscall
     test    rax, rax    ;
     js  error           ; jump if rax negative
-    xor rax,rax
+    xor rax, rax        ; set rax to 
     ret
 
 error:  ; write error msg and set errno
