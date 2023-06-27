@@ -134,7 +134,6 @@ void    read_check(int fd, size_t count)
         tmperrno = errno;
         r1 = read(p1[0], str1, count);
         str1[count] = 0;
-
     }
 
     // check erro
@@ -144,9 +143,22 @@ void    read_check(int fd, size_t count)
         printf("%sOK%s\n", GREEN, DEFAULT);
     else
         printf("%sKO : %d-%d | %zd-%zd | %d %s\n", RED, errno, tmperrno, r1, r2, strcmp(str1, str2), DEFAULT);
+}
 
+void    strdup_check(const char *str)
+{
+    char    *s1, *s2;
 
+    s1 = strdup(str);
+    s2 = ft_strdup(str);
 
+    if (!strcmp(s1, s2) && s1 != s2 && s2 != str)
+        printf("%sOK%s\n", GREEN, DEFAULT);
+    else
+        printf("%sKO%s\n", RED, DEFAULT);
+
+    free(s1);
+    free(s2);
 }
 
 // ****************************
@@ -160,11 +172,6 @@ void    strlen_tester()
     strlen_check(ft_strlen, strlen, "test\n");
     strlen_check(ft_strlen, strlen, test);
     strlen_check(ft_strlen, strlen, "");
-
-    // printf("ft: %2ld | or: %2ld\n", ft_strlen("test"), strlen("test"));
-    // printf("ft: %2ld | or: %2ld\n", ft_strlen("test\n"), strlen("test\n"));
-    // printf("ft: %2ld | or: %2ld\n", ft_strlen(test), strlen(test));
-    // printf("ft: %2ld | or: %2ld\n", ft_strlen(""), strlen(""));
 }
 
 void    strcpy_tester()
@@ -220,6 +227,15 @@ void    read_tester()
     read_check(-1, 42);
 }
 
+void    strdup_tester()
+{
+    printf("%s*** STRDUP TESTER ***%s\n", YELLOW, DEFAULT);
+    strdup_check("");
+    strdup_check("42");
+    strdup_check("012345679");
+    strdup_check("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel nunc nulla. Proin ornare augue id lorem vestibulum, nec interdum.");
+}
+
 int main()
 {
     printf("BEGIN TEST\n");
@@ -228,5 +244,7 @@ int main()
     strcmp_tester();
     write_tester();
     read_tester();
+    strdup_tester();
+
     return (0);
 }
