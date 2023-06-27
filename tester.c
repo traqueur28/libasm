@@ -20,8 +20,6 @@ void    strcpy_check(char *(f1)(char *, const char *), char *(f2)(char *, const 
     char dest1[12] = "********";
     char dest2[12] = "********";
 
-    (void)f1;
-
     res1 = f1(dest1, str);
     res2 = f2(dest2, str2);
 
@@ -109,6 +107,48 @@ void    write_check(int fd, const void *buf, size_t count)
 
 }
 
+void    read_check(int fd, size_t count)
+{
+    ssize_t r1, r2;
+    char    str1[1000], str2[1000];
+    int     p1[2];
+    int     p2[2];
+    int     tmperrno;
+
+    if (fd == -1)
+    {
+        r2 = write(fd, str2, count);
+        tmperrno = errno;
+        r1 = write(fd, str1, count);
+    }
+    else
+    {
+        pipe(p1);
+        pipe(p2);
+
+        write(p2[1], "abcdefghijklmnopqrstuvwxyz 0123456798 42 est vraiment sympa\n", count);
+        write(p1[1], "abcdefghijklmnopqrstuvwxyz 0123456798 42 est vraiment sympa\n", count);
+
+        r2 = ft_read(p2[0], str2, count);
+        str2[count] = 0;
+        tmperrno = errno;
+        r1 = read(p1[0], str1, count);
+        str1[count] = 0;
+
+    }
+
+    // check erro
+    // check return
+    // check buff
+    if (errno == tmperrno && r1 == r2 && !strcmp(str1, str2))
+        printf("%sOK%s\n", GREEN, DEFAULT);
+    else
+        printf("%sKO : %d-%d | %zd-%zd | %d %s\n", RED, errno, tmperrno, r1, r2, strcmp(str1, str2), DEFAULT);
+
+
+
+}
+
 // ****************************
 
 void    strlen_tester()
@@ -165,6 +205,19 @@ void    write_tester()
     write_check(1, "", 0);
     write_check(1, "abcd\n", 15);
     write_check(-1, "abcd\n", 15);
+    write_check(1, "abcd\n", -1);
+
+}
+
+void    read_tester()
+{
+    printf("%s*** READ TESTER ***%s\n", YELLOW, DEFAULT);
+    read_check(0, 42);
+    read_check(0, 1);
+    read_check(0, 0);
+    read_check(0, 280);
+    read_check(0, -1);
+    read_check(-1, 42);
 }
 
 int main()
@@ -174,5 +227,6 @@ int main()
     strcpy_tester();
     strcmp_tester();
     write_tester();
+    read_tester();
     return (0);
 }
