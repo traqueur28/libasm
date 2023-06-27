@@ -20,12 +20,14 @@ endif
 #    Includes
 INC_PATH	=	inc/
 
-INC_FILES	=	libasm.h
+INC_FILES	=	libasm.h libasm_bonus.h
 
 INC			=	$(addprefix $(INC_PATH), $(INC_FILES))
 
 #    Files
 SRCS_PATH = src
+
+SRCS_PATH_B = bonus
 
 FILES = ft_read.s \
 		ft_strcmp.s	\
@@ -34,10 +36,15 @@ FILES = ft_read.s \
 		ft_strlen.s \
 	 	ft_write.s
 
+FILES_B =	ft_atoi_base.s
+
 SRCS = $(addprefix $(SRCS_PATH)/, $(FILES))
+SRCS_B = $(addprefix $(SRCS_PATH_B)/, $(FILES_B))
+
 
 #    Compilation
 NAME = libasm.a
+NAME_B = libasm_bonus.a
 
 MAIN = tester.c
 
@@ -50,8 +57,11 @@ FLAGS = -Wall -Werror -Wextra
 RM = rm -rf
 
 OBJS_PATH = objs/
+OBJS_PATH_B = objs/
+
 
 OBJS = $(patsubst $(SRCS_PATH)%.s,    $(OBJS_PATH)%.o,    $(SRCS))
+OBJS_B = $(patsubst $(SRCS_PATH_B)%.s,    $(OBJS_PATH)%.o,    $(SRCS_B))
 
 #    Rules
 all: $(NAME)
@@ -68,6 +78,17 @@ $(OBJS_PATH)%.o: $(SRCS_PATH)%.s Makefile $(INC)
 	$(HIDE) $(CC) -s $< -o $@
 	@ echo "$(GREEN)[ OK ]$(END) $(CYAN)${<:.s=.o}$(END)"
 
+bonus: $(NAME_B)
+
+$(NAME_B): $(OBJS_PATH) $(OBJS) $(OBJS_B)
+	@ echo "$(BLUE)\n         ***Make $(NAME_B) ***\n$(END)"
+	$(HIDE) ar rcs $(NAME_B) $(OBJS) $(OBJS_B)
+	@ echo "$(GREEN)\n        ---$(NAME_B) created ---\n$(END)"
+
+$(OBJS_PATH_B)%.o: $(SRCS_PATH_B)%.s Makefile $(INC)
+	$(HIDE) $(CC) -s $< -o $@
+	@ echo "$(GREEN)[ OK ]$(END) $(CYAN)${<:.s=.o}$(END)"
+
 tester: $(NAME) $(INC) $(MAIN)
 	$(HIDE) clang $(FLAGS) $(MAIN) -L. -lasm -o $(TEST)
 	$(HIDE) ./$(TEST)
@@ -77,7 +98,7 @@ clean:
 	@ echo "$(PURPLE)\n        *** Clean objects ***\n$(END)"
 
 fclean: clean
-	$(HIDE) $(RM) $(NAME) $(TEST)
+	$(HIDE) $(RM) $(NAME) $(TEST) $(NAME_B)
 	@ echo "$(RED)\n        *** Remove $(NAME) and $(TEST) ***\n$(END)"
 
 re: fclean all
