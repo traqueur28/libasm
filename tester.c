@@ -1,5 +1,19 @@
 #include "./inc/libasm.h"
 
+void    strlen_check(size_t (*f1)(const char *s), size_t (*f2)(const char *s), const char *str)
+{
+    size_t  r1, r2;
+
+    r1 = f1(str);
+    r2 = f2(str);
+
+    // compare return
+    if (r1 == r2)
+        printf("%sOK%s\n", GREEN, DEFAULT);
+    else
+        printf("%sKO%s\n", RED, DEFAULT);
+}
+
 void    strcpy_check(char *(f1)(char *, const char *), char *(f2)(char *, const char *), const char *str, const char *str2) {
     char *res1, *res2;
 
@@ -102,10 +116,15 @@ void    strlen_tester()
     printf("%s*** STRLEN TESTER ***%s\n", YELLOW, DEFAULT);
 
     char test[4] = "0123";
-    printf("ft: %2ld | or: %2ld\n", ft_strlen("test"), strlen("test"));
-    printf("ft: %2ld | or: %2ld\n", ft_strlen("test\n"), strlen("test\n"));
-    printf("ft: %2ld | or: %2ld\n", ft_strlen(test), strlen(test));
-    printf("ft: %2ld | or: %2ld\n", ft_strlen(""), strlen(""));
+    strlen_check(ft_strlen, strlen, "test");
+    strlen_check(ft_strlen, strlen, "test\n");
+    strlen_check(ft_strlen, strlen, test);
+    strlen_check(ft_strlen, strlen, "");
+
+    // printf("ft: %2ld | or: %2ld\n", ft_strlen("test"), strlen("test"));
+    // printf("ft: %2ld | or: %2ld\n", ft_strlen("test\n"), strlen("test\n"));
+    // printf("ft: %2ld | or: %2ld\n", ft_strlen(test), strlen(test));
+    // printf("ft: %2ld | or: %2ld\n", ft_strlen(""), strlen(""));
 }
 
 void    strcpy_tester()
