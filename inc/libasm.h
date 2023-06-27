@@ -1,9 +1,14 @@
 #ifndef LIBASM_H
-# define LIBADM_H
+# define LIBASM_H
 
 # include "stdio.h"
 # include "string.h"
 # include <unistd.h>
+
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <errno.h>
 
 #define GREEN   "\033[32m"
 #define RED     "\033[31m"

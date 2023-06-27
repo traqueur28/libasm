@@ -69,7 +69,7 @@ $(OBJS_PATH)%.o: $(SRCS_PATH)%.s Makefile $(INC)
 	@ echo "$(GREEN)[ OK ]$(END) $(CYAN)${<:.s=.o}$(END)"
 
 tester: $(NAME) $(INC) $(MAIN)
-	$(HIDE) gcc $(FLAGS) $(MAIN) -L. -lasm -o $(TEST)
+	$(HIDE) clang $(FLAGS) $(MAIN) -L. -lasm -o $(TEST)
 	$(HIDE) ./$(TEST)
 
 clean:

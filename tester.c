@@ -11,11 +11,12 @@ void    strcpy_check(char *(f1)(char *, const char *), char *(f2)(char *, const 
     res1 = f1(dest1, str);
     res2 = f2(dest2, str2);
 
+    // compare return | original str | target str
     if (!strcmp(res1, res2) && !strcmp(str, str2) && *res1 == *dest1 && *res2 == *dest2)
-        printf("OK\n");
+        printf("%sOK%s\n", GREEN, DEFAULT);
     else
     {
-        printf("KO\n");
+        printf("%sKO%s\n", RED, DEFAULT);
         printf("ft_res = %s\nOr_res = %s\n", res1, res2);
         printf("ft_src = %s\nOr_src = %s\n", str, str2);
         printf("ft_des = %s\nOr_des = %s\n", dest1, dest2);
@@ -35,11 +36,12 @@ void    strcmp_check(int(f1)(const char *, const char *), int(f2)(const char *, 
     if (r2 > 0)
         r2 = 1;
     
+    // compare return
     if (r1 == r2)
-        printf("OK\n");
+        printf("%sOK%s\n", GREEN, DEFAULT);
     else
     {
-        printf("KO\n");
+        printf("%sKO%s\n", RED, DEFAULT);
         printf("ft = %d | or = %d\n", r1, r2);
     }
 }
@@ -47,28 +49,69 @@ void    strcmp_check(int(f1)(const char *, const char *), int(f2)(const char *, 
 void    write_check(int fd, const void *buf, size_t count)
 {
     ssize_t r1, r2;
+    char    str1[100], str2[100];
+    int     p1[2];
+    int     p2[2];
+    int     tmperrno;
 
-    r1 = write(fd, buf, count);
-    r2 = write(fd, buf, count);
-
-    if (r1 == r2)
-        printf("-OK\n");
+    pipe(p1);
+    pipe(p2);
+    if (fd == -1)
+    {
+        close(p1[1]);
+        close(p2[1]);
+        r2 = ft_write(fd, buf, count);
+        tmperrno = errno;
+        r1 = write(fd, buf, count);
+    }
     else
-        printf("-KO: %ld | %ld\n", r1, r2);
+    {
+        r2 = ft_write(p2[1], buf, count);
+        tmperrno = errno;
+        r1 = write(p1[1], buf, count);
+    }
+
+    // check errno
+    // return
+    // output if no error
+
+    // printf("%zd == %zd | %d == %d\n", r1, r2, errno, tmperrno);
+    if (r1 == r2 && errno == tmperrno)
+    {
+        if (r2 != -1 && r1 != -1) // check output
+        {
+            r1 = read(p1[0], str1, count);
+            r2 = read(p2[0], str2, count);
+            if (r1 == r2 && !strcmp(str1, str2))
+                printf("%sOK%s\n", GREEN, DEFAULT);
+            else
+                printf("%sKO write%s\n", RED, DEFAULT);
+        }
+        else
+            printf("%sOK on error write%s\n", GREEN, DEFAULT);
+    }
+    else
+        printf("%sKO ERRNO or return%s\n", RED, DEFAULT);
 
 }
 
+// ****************************
+
 void    strlen_tester()
 {
+    printf("%s*** STRLEN TESTER ***%s\n", YELLOW, DEFAULT);
+
     char test[4] = "0123";
-    printf("ft: %ld | or: %ld\n", ft_strlen("test"), strlen("test"));
-    printf("ft: %ld | or: %ld\n", ft_strlen("test\n"), strlen("test\n"));
-    printf("ft: %ld | or: %ld\n", ft_strlen(test), strlen(test));
-    printf("ft: %ld | or: %ld\n", ft_strlen(""), strlen(""));
+    printf("ft: %2ld | or: %2ld\n", ft_strlen("test"), strlen("test"));
+    printf("ft: %2ld | or: %2ld\n", ft_strlen("test\n"), strlen("test\n"));
+    printf("ft: %2ld | or: %2ld\n", ft_strlen(test), strlen(test));
+    printf("ft: %2ld | or: %2ld\n", ft_strlen(""), strlen(""));
 }
 
 void    strcpy_tester()
 {
+    printf("%s*** STRCPY TESTER ***%s\n", YELLOW, DEFAULT);
+
     strcpy_check(ft_strcpy, strcpy, "012345678", "012345678");
     strcpy_check(ft_strcpy, strcpy, "***", "***");
 
@@ -78,6 +121,8 @@ void    strcpy_tester()
 
 void    strcmp_tester()
 {
+    printf("%s*** STRCMP TESTER ***%s\n", YELLOW, DEFAULT);
+
     strcmp_check(ft_strcmp, strcmp, "a", "");
     strcmp_check(ft_strcmp, strcmp, "", "a");
 
@@ -93,19 +138,22 @@ void    strcmp_tester()
 
 void    write_tester()
 {
-    //write_check(1, "012345678\n", 10);
-    // write_check(1, "abcd\n", 15);
+    printf("%s*** WRITE TESTER ***%s\n", YELLOW, DEFAULT);
 
-
-    
+    write_check(1, "012345678\n", 11);
+    write_check(1, "012345678\n\0", 50);
+    write_check(1, "012345678", 5);
+    write_check(1, "", 0);
+    write_check(1, "abcd\n", 15);
+    write_check(-1, "abcd\n", 15);
 }
 
 int main()
 {
     printf("BEGIN TEST\n");
-    // strlen_tester();
-    // strcpy_tester();
-    // strcmp_tester();
+    strlen_tester();
+    strcpy_tester();
+    strcmp_tester();
     write_tester();
     return (0);
 }

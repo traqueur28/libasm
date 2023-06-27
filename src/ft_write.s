@@ -4,27 +4,20 @@ extern __errno_location
 
 section .text
 
-;int fd, const void *buf, size_t count)
-; rdi, rsi, rdx
-
-; mov rdi, rdi        ; fd to write
-; mov rsi, rsi        ; ptr text
-; mov rdx, rdx        ; Size
-
 global  ft_write
 
 ft_write:
     mov rax, 1          ; set number syscall (1 = write)
-    syscall
+    syscall             ; systcall write
     test    rax, rax    ;
-    js  error           ; jump if rax negative
-    xor rax, rax        ; set rax to 
-    ret
+    js  error           ; jump if rax negative (-errno)
+    ret                 ; return number bytes write
 
 error:  ; write error msg and set errno
-    mov rax, 1  ; set syscall
-    mov rdi, 2  ; set fd error
-    mov
-
+    neg		rax                 ; change rax to positive
+	mov		rdi, rax            ; store rax in rdi
+	call	__errno_location    ; change errno to
+	mov		qword [rax], rdi    ; set errno
+	mov		rax, -1             ; return -1
     ret
 
