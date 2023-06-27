@@ -1,6 +1,12 @@
 # libasm
 Project_42: libasm.
 
+### Personnal tester
+
+git clone my project
+Put your libasm.a in my directory
+make tester
+
 ### Mandatory 
 
 Create library in asm with following functions:
