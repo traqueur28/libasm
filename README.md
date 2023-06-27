@@ -3,9 +3,9 @@ Project_42: libasm.
 
 ### Personnal tester
 
-git clone my project
-Put your libasm.a in my directory
-make tester
+ - git clone my project
+ - Put your libasm.a in my directory
+ - make tester
 
 ### Mandatory 
 
