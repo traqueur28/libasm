@@ -282,11 +282,11 @@ void    ft_atoi_base_tester()
     ft_atoi_base_checker(0, "42", "a");
         // space
     ft_atoi_base_checker(0, "42", "a sd");
-    ft_atoi_base_checker(0, "42", "a\vsd");
-    ft_atoi_base_checker(0, "42", "a\rsd");
-    ft_atoi_base_checker(0, "42", "a\tsd");
-    ft_atoi_base_checker(0, "42", "a\nsd");
-    ft_atoi_base_checker(0, "42", "a\fsd");
+    ft_atoi_base_checker(0, "42", "ab\nsd");
+    ft_atoi_base_checker(0, "42", "ab\vsd");
+    ft_atoi_base_checker(0, "42", "ab\fsd");
+    ft_atoi_base_checker(0, "42", "ab\rsd");
+    ft_atoi_base_checker(0, "42", "ab\tsd");
         // + -
     ft_atoi_base_checker(0, "42", "asd+");
     ft_atoi_base_checker(0, "42", "asd-");
