@@ -79,6 +79,8 @@ $(OBJS_PATH)%.o: $(SRCS_PATH)%.s Makefile $(INC)
 	$(HIDE) $(CC) -s $< -o $@
 	@ echo "$(GREEN)[ OK ]$(END) $(CYAN)${<:.s=.o}$(END)"
 
+bonus: $(NAME)
+
 # bonus: $(NAME_B)
 
 # $(NAME_B): $(OBJS_PATH) $(OBJS) $(OBJS_B)

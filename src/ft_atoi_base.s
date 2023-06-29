@@ -21,14 +21,14 @@ check_duplicate:
     jmp check_duplicate
 
 in_base:
-    cmp byte[rsi + rbx], 0
+    cmp byte[rsi + rdx], 0
     je  return  ; no match return result
-    push    rbx ; store rbx
-    mov bl, byte[rsi + rbx]
-    cmp bl, byte[rdi + rcx]
+    push    rdx ; store rdx
+    mov dl, byte[rsi + rdx]
+    cmp dl, byte[rdi + rcx]
     je  found   ; match
-    pop rbx     ; get rbx here
-    inc rbx
+    pop rdx     ; get rdx here
+    inc rdx
     jmp in_base
 
 ; ---------
@@ -102,17 +102,19 @@ end_checker:
     ; skip and count '+' '-'
     jmp skip_sign
 calc_result:                ; now we are at beginning
+    push rdx                ; sign neg on stack
+calc_result_2:
     cmp byte[rdi + rcx], 0  ; end string return 
     je  return
-    xor rbx, rbx            ; set rbx 0 to count
+    xor rdx, rdx            ; set rdx 0 to count
     jmp in_base             ; check byte[rdi + rcx] in rsi
 
-found:    ; match at rsi + rbx
-    pop rbx                     ; get rbx if not pop before
+found:    ; match at rsi + rdx
+    pop rdx                     ; get rdx if not pop before
     imul rax, r8                ; rax * 10 TODO len base
-    add rax, rbx                ; add result
+    add rax, rdx                ; add result
     inc rcx
-    jmp calc_result
+    jmp calc_result_2
     ;while
     ; get index rdi[0] in rsi   OK
     ; Si pas trouve return      OK
@@ -127,6 +129,7 @@ found:    ; match at rsi + rbx
 
 return:
     ; mov rax, 21
+    pop rdx
     imul    rax, rdx    ; get signe
     ret
 
