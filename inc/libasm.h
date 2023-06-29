@@ -24,4 +24,13 @@ char    *ft_strdup(const char *s);
 ssize_t ft_write(int fd, const void *buf, size_t count);
 ssize_t ft_read(int fd, void *buf, size_t count);
 
+/*  ***** BONUS ***** */
+
+int ft_atoi_base(char *str, char *base);
+
+// ft_list_push_front (like the one in the piscine)
+// ft_list_size (like the one in the piscine)
+// ft_list_sort (like the one in the piscine)
+// ft_list_remove_if (like the one in the piscine)
+
 #endif

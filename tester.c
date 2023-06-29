@@ -161,6 +161,18 @@ void    strdup_check(const char *str)
     free(s2);
 }
 
+void    ft_atoi_base_checker(int res, char *str, char *base)
+{
+    int ret = ft_atoi_base(str, base);
+    if (res == ret)
+        printf("%sOK%s\n", GREEN, DEFAULT);
+    else
+    {
+        printf("%sKO%s\n", RED, DEFAULT);
+        printf("ret : %d | str : %s | base : %s\n", ret, str, base);
+    }
+}
+
 // ****************************
 
 void    strlen_tester()
@@ -236,15 +248,74 @@ void    strdup_tester()
     strdup_check("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel nunc nulla. Proin ornare augue id lorem vestibulum, nec interdum.");
 }
 
+void    ft_atoi_base_tester()
+{
+    char    *b2 = "01";
+    char    *b10 = "0123456789";
+    char    *b16 = "0123456789abcdef";
+
+
+    // valide
+    ft_atoi_base_checker(0, "0", b2);
+    ft_atoi_base_checker(0, "0", b10);
+    ft_atoi_base_checker(0, "0", b16);
+
+    ft_atoi_base_checker(42, "101010", b2);
+    ft_atoi_base_checker(42, "42", b10);
+    ft_atoi_base_checker(42, "2a", b16);
+
+    ft_atoi_base_checker(-42, "-101010", b2);
+    ft_atoi_base_checker(-42, "-42", b10);
+    ft_atoi_base_checker(-42, "-2a", b16);
+
+    ft_atoi_base_checker(42, "--101010", b2);
+    ft_atoi_base_checker(42, "--42", b10);
+    ft_atoi_base_checker(42, "--2a", b16);
+    
+
+    ft_atoi_base_checker(0, "", b10);
+
+
+    // unvalid base
+        // size
+    ft_atoi_base_checker(0, "42", "");
+    ft_atoi_base_checker(0, "42", "a");
+        // space
+    ft_atoi_base_checker(0, "42", "a sd");
+    ft_atoi_base_checker(0, "42", "a\vsd");
+    ft_atoi_base_checker(0, "42", "a\rsd");
+    ft_atoi_base_checker(0, "42", "a\tsd");
+    ft_atoi_base_checker(0, "42", "a\nsd");
+    ft_atoi_base_checker(0, "42", "a\fsd");
+        // + -
+    ft_atoi_base_checker(0, "42", "asd+");
+    ft_atoi_base_checker(0, "42", "asd-");
+        // doublon
+    printf("DOUBLON TEST\n");
+    ft_atoi_base_checker(0, "42", "01bb234a5678");
+    ft_atoi_base_checker(0, "42", "01234a56789a");
+    
+
+
+    // min max int
+}
+
 int main()
 {
+    // MANDATORY
     printf("BEGIN TEST\n");
-    strlen_tester();
-    strcpy_tester();
-    strcmp_tester();
-    write_tester();
-    read_tester();
-    strdup_tester();
+    // strlen_tester();
+    // strcpy_tester();
+    // strcmp_tester();
+    // write_tester();
+    // read_tester();
+    // strdup_tester();
+
+    // BONUS
+    ft_atoi_base_tester();
+
+    printf("END TEST\n");
+
 
     return (0);
 }

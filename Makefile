@@ -34,7 +34,8 @@ FILES = ft_read.s \
 		ft_strcpy.s \
 		ft_strdup.s \
 		ft_strlen.s \
-	 	ft_write.s
+	 	ft_write.s \
+		ft_atoi_base.s
 
 FILES_B =	ft_atoi_base.s
 
@@ -78,16 +79,16 @@ $(OBJS_PATH)%.o: $(SRCS_PATH)%.s Makefile $(INC)
 	$(HIDE) $(CC) -s $< -o $@
 	@ echo "$(GREEN)[ OK ]$(END) $(CYAN)${<:.s=.o}$(END)"
 
-bonus: $(NAME_B)
+# bonus: $(NAME_B)
 
-$(NAME_B): $(OBJS_PATH) $(OBJS) $(OBJS_B)
-	@ echo "$(BLUE)\n         ***Make $(NAME_B) ***\n$(END)"
-	$(HIDE) ar rcs $(NAME_B) $(OBJS) $(OBJS_B)
-	@ echo "$(GREEN)\n        ---$(NAME_B) created ---\n$(END)"
+# $(NAME_B): $(OBJS_PATH) $(OBJS) $(OBJS_B)
+# 	@ echo "$(BLUE)\n         ***Make $(NAME_B) ***\n$(END)"
+# 	$(HIDE) ar rcs $(NAME_B) $(OBJS) $(OBJS_B)
+# 	@ echo "$(GREEN)\n        ---$(NAME_B) created ---\n$(END)"
 
-$(OBJS_PATH_B)%.o: $(SRCS_PATH_B)%.s Makefile $(INC)
-	$(HIDE) $(CC) -s $< -o $@
-	@ echo "$(GREEN)[ OK ]$(END) $(CYAN)${<:.s=.o}$(END)"
+# $(OBJS_PATH_B)%.o: $(SRCS_PATH_B)%.s Makefile $(INC)
+# 	$(HIDE) $(CC) -s $< -o $@
+# 	@ echo "$(GREEN)[ OK ]$(END) $(CYAN)${<:.s=.o}$(END)"
 
 tester: $(NAME) $(INC) $(MAIN)
 	$(HIDE) clang $(FLAGS) $(MAIN) -L. -lasm -o $(TEST)
