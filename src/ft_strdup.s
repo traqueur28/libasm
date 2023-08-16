@@ -5,7 +5,7 @@ extern  ft_strcpy
 extern  malloc
 extern  __errno_location
 
-section .text
+section .data
 
 global  ft_strdup
 
