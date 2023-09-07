@@ -304,12 +304,12 @@ int main()
 {
     // MANDATORY
     printf("BEGIN TEST\n");
-    // strlen_tester();
-    // strcpy_tester();
-    // strcmp_tester();
-    // write_tester();
-    // read_tester();
-    // strdup_tester();
+    strlen_tester();
+    strcpy_tester();
+    strcmp_tester();
+    write_tester();
+    read_tester();
+    strdup_tester();
 
     // BONUS
     ft_atoi_base_tester();

@@ -2,7 +2,7 @@ bits 64
 
 extern __errno_location
 
-section .data
+section .text
 
 global  ft_write
 
