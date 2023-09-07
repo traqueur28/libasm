@@ -1,4 +1,5 @@
 #include "./inc/libasm.h"
+#include "./inc/libasm_bonus.h"
 
 void    strlen_check(size_t (*f1)(const char *s), size_t (*f2)(const char *s), const char *str)
 {
@@ -250,6 +251,8 @@ void    strdup_tester()
 
 void    ft_atoi_base_tester()
 {
+    printf("%s*** ATOI_BASE TESTER ***%s\n", YELLOW, DEFAULT);
+
     char    *b2 = "01";
     char    *b10 = "0123456789";
     char    *b16 = "0123456789abcdef";
@@ -291,7 +294,6 @@ void    ft_atoi_base_tester()
     ft_atoi_base_checker(0, "42", "asd+");
     ft_atoi_base_checker(0, "42", "asd-");
         // doublon
-    printf("DOUBLON TEST\n");
     ft_atoi_base_checker(0, "42", "01bb234a5678");
     ft_atoi_base_checker(0, "42", "01234a56789a");
     

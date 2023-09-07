@@ -4,11 +4,11 @@
 # include <errno.h>
 # include <stdlib.h>
 
-typedef struct s_list
-{
-    void            *data;
-    struct s_list   *next;
-}   t_list;
+// typedef struct s_list
+// {
+//     void            *data;
+//     struct s_list   *next;
+// }   t_list;
 
 int ft_atoi_base(char *str, char *base);
 

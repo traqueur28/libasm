@@ -19,14 +19,11 @@ endif
 
 #    Includes
 INC_PATH	=	inc/
-
 INC_FILES	=	libasm.h libasm_bonus.h
-
 INC			=	$(addprefix $(INC_PATH), $(INC_FILES))
 
 #    Files
 SRCS_PATH = src
-
 SRCS_PATH_B = bonus
 
 FILES = ft_read.s \
@@ -34,8 +31,8 @@ FILES = ft_read.s \
 		ft_strcpy.s \
 		ft_strdup.s \
 		ft_strlen.s \
-	 	ft_write.s \
-		ft_atoi_base.s
+	 	ft_write.s
+
 
 FILES_B =	ft_atoi_base.s
 
@@ -75,25 +72,27 @@ $(NAME): $(OBJS_PATH) $(OBJS)
 $(OBJS_PATH):
 	$(HIDE) mkdir -p $(OBJS_PATH)
 
-$(OBJS_PATH)%.o: $(SRCS_PATH)%.s Makefile $(INC)
+$(OBJS_PATH)%.o: $(SRCS_PATH)%.s $(INC)
 	$(HIDE) $(CC) -s $< -o $@
 	@ echo "$(GREEN)[ OK ]$(END) $(CYAN)${<:.s=.o}$(END)"
 
-bonus: $(NAME)
+bonus: $(NAME_B)
 
-# bonus: $(NAME_B)
+#$(OBJS_PATH) $(OBJS) 
 
-# $(NAME_B): $(OBJS_PATH) $(OBJS) $(OBJS_B)
-# 	@ echo "$(BLUE)\n         ***Make $(NAME_B) ***\n$(END)"
-# 	$(HIDE) ar rcs $(NAME_B) $(OBJS) $(OBJS_B)
-# 	@ echo "$(GREEN)\n        ---$(NAME_B) created ---\n$(END)"
 
-# $(OBJS_PATH_B)%.o: $(SRCS_PATH_B)%.s Makefile $(INC)
-# 	$(HIDE) $(CC) -s $< -o $@
-# 	@ echo "$(GREEN)[ OK ]$(END) $(CYAN)${<:.s=.o}$(END)"
+$(NAME_B): $(NAME) $(OBJS_PATH_B) $(OBJS_B)
+#	@ echo "$(BLUE)\n         ***Make $(NAME_B) ***\n$(END)"
+	$(HIDE) ar rcs $(NAME_B) $(OBJS) $(OBJS_B)
+#	@ echo "$(GREEN)\n        ---$(NAME_B) created ---\n$(END)"
 
-tester: $(NAME) $(INC) $(MAIN)
-	$(HIDE) clang $(FLAGS) $(MAIN) -L. -lasm -o $(TEST)
+$(OBJS_PATH_B)%.o: $(SRCS_PATH_B)%.s $(INC)
+	$(HIDE) $(CC) -s $< -o $@
+#	@ echo "$(GREEN)[ OK ]$(END) $(CYAN)${<:.s=.o}$(END)"
+
+#$(NAME_B)
+tester: $(NAME) $(NAME_B) $(INC) $(MAIN)
+	clang $(FLAGS) $(MAIN) -L. -lasm -lasm_bonus -o $(TEST)
 	$(HIDE) ./$(TEST)
 
 clean:
@@ -106,10 +105,4 @@ fclean: clean
 
 re: fclean all
 
-hello:
-	@ nasm -f elf64 -o hello.o hello.s
-	@ ld -o hello hello.o
-	@ ./hello
-	@ rm -rf hello.o hello
-
-.PHONY: all clean fclean re hello tester
+.PHONY: all clean fclean re tester

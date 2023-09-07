@@ -26,7 +26,7 @@ ssize_t ft_read(int fd, void *buf, size_t count);
 
 /*  ***** BONUS ***** */
 
-int ft_atoi_base(char *str, char *base);
+// int ft_atoi_base(char *str, char *base);
 
 // ft_list_push_front (like the one in the piscine)
 // ft_list_size (like the one in the piscine)
